@@ -9,7 +9,7 @@ eureka:
     registry-fetch-interval-seconds: 5
 
 env: 
-    beta22
+    beta11
 ---
 spring:
   profiles: dev
