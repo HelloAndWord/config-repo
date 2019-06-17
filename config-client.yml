@@ -1,0 +1,54 @@
+eureka:
+  instance:
+    #default false,if you set true ,it will use its IP Address rather than its hostname.
+    prefer-ip-address: true
+    #配置hostname在页面上以ip形式显示，高版本：${spring.cloud.client.ip-address}；低版本：${spring.cloud.client.ipAddress}
+    hostname: ${spring.cloud.client.ip-address}
+    #id 默认：${spring.cloud.client.hostname}:${spring.application.name}:${spring.application.instance_id}:${server.port}}
+    #指定 id 以机器ip显示，因为在某些情况下，发起服务调用时，根据主机名找不到ip 地址，在这里设置以ip形式展示，就能解决这个问题。
+    instance-id: ${spring.cloud.client.ip-address}:${spring.application.name}:${server.port}
+---
+spring:
+  profiles: dev
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://192.168.20.4:3306/feijiayun_pharmacy?useUnicode=true&characterEncoding=UTF8&autoReconnect=true&allowMultiQueries=true&zeroDateTimeBehavior=convertToNull
+    username: root
+    password: devMysql&123
+    platform: mysql
+    # 初始化大小，最小，最大
+    initialSize: 1
+    minIdle: 3
+    maxActive: 20
+    # 配置获取连接等待超时的时间
+    maxWait: 60000
+    # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+    timeBetweenEvictionRunsMillis: 60000
+    # 配置一个连接在池中最小生存的时间，单位是毫秒
+    minEvictableIdleTimeMillis: 30000
+    validationQuery: select 'x'
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    # 打开PSCache，并且指定每个连接上PSCache的大小
+    poolPreparedStatements: true
+    maxPoolPreparedStatementPerConnectionSize: 20
+    # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+    filters: stat,wall,slf4j
+    # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=1000
+  redis:
+    # Redis数据库索引（默认为0）
+    database: 3
+    # Redis服务器地址
+    host: 192.168.20.4
+    # Redis服务器连接端口
+    port: 6379
+    # Redis 密码
+    password: devRedis&123
+  rabbitmq:
+    host: 192.168.20.4
+    port: 5672
+    username: guest
+    password: guest
+---
